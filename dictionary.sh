@@ -2,7 +2,7 @@
 
 readonly BASE_DIR=$(dirname $(realpath $0))
 
-print_help () {
+usage () {
     cat << _EOT_
 Usage: $(basename $0) [OPTION]... SEARCH_WORD
 
@@ -18,8 +18,8 @@ main () {
     local opts whole='false' cmdline
 
     opts=$(getopt -o 'hw' -l 'help,whole' -- "$@") || {
-        print_help | head -n 1 >&2
-        exit 1
+        usage | head -n 1 >&2
+        return 1
     }
     eval "set -- $opts"
 
@@ -27,8 +27,8 @@ main () {
     do
         case "$1" in
             -h | --help )
-                print_help
-                exit 0
+                usage
+                return 0
             ;;
             -w | --whole )
                 whole='true'
@@ -42,8 +42,8 @@ main () {
     done
 
     if (( $# < 1 )); then
-        print_help | head -n 1 >&2
-        exit 1
+        usage | head -n 1 >&2
+        return 1
     fi
 
     cmdline=('grep -i --color=auto')
