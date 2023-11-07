@@ -46,12 +46,12 @@ main () {
         return 1
     fi
 
-    cmdline=('grep -i --color=auto')
+    cmdline=('grep -E -i --color=auto')
 
-    if [[ "$1" =~ ^[a-zA-Z\ ]+$ ]]; then
-        cmdline+=('-A 1')
-    else
+    if [[ "$1" =~ [ぁ-んァ-ヶ亜-熙] ]]; then
         cmdline+=('-B 1')
+    else
+        cmdline+=('-A 1')
     fi
 
     if eval "$whole"; then

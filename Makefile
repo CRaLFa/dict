@@ -3,13 +3,14 @@ BIN_DIR := /usr/local/bin
 
 .PHONY: all install clean
 
-all: clean dictionary.sh gene.txt
+all: dictionary.sh gene.txt
 
 gene.txt:
 	@ echo 'Downloading dictionary data...'
-	@ curl -sS http://www.namazu.org/~tsuchiya/sdic/data/gene95.tar.gz \
+	@ curl -sS 'http://www.namazu.org/~tsuchiya/sdic/data/gene95.tar.gz' \
 		| tar xzOf - gene.txt \
-		| iconv -c -f SHIFT_JIS -t UTF-8 > ./gene.txt
+		| iconv -c -f SHIFT_JIS -t UTF-8 \
+		| tr -d '\r' > ./gene.txt
 	@ echo 'Downloaded: ./gene.txt'
 
 install:
